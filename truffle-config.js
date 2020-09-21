@@ -17,7 +17,8 @@ module.exports = {
         enabled: true,
         runs: 200
       },
-      evmVersion: "petersburg"
+      evmVersion: "petersburg",
+      version: "0.6.6"
     }
   }
 }
