@@ -21,7 +21,7 @@ class App extends Component {
               <div className="content mr-auto ml-auto"
                    style = {{display: 'flex', justifyContent:'center'}}>
 
-                <h1>Upcoming NBA Games</h1>
+                <h1>Upcoming NBA Games Today</h1>
 
               </div>
             </main>
