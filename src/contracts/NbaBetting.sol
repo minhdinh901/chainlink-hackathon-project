@@ -57,8 +57,7 @@ contract NbaBetting is ChainlinkClient {
     uint public tempHomeScore;
     uint public tempVisitorScore;
 
-    constructor(IERC20 _nbaTokenAddress) public {
-        setPublicChainlinkToken(); //Set the address for the LINK token
+    constructor(address _nbaTokenAddress) public {
         nbaToken = IERC20(_nbaTokenAddress);
         owner = msg.sender;
     }
