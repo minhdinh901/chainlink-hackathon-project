@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Navbar from './Navbar'
 import './App.css'
 
-class App extends Component {
+class WD_Page extends Component {
 
   constructor(props) {
     super(props)
@@ -32,4 +32,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default WD_Page;
