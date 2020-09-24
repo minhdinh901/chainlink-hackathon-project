@@ -7,15 +7,6 @@ import './Home.css'
 class Navbar extends Component {
 
   render() {  
-        /*Button Work*/
-        const buttonStyle = {
-          color: "red",
-          backgroundCOlor: "white",
-          padding: "10px",
-          fontFamily: "Arial", 
-          justifyContent:'left',
-          display: 'flex'
-        };
         
     return (
       <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -29,11 +20,13 @@ class Navbar extends Component {
         </a>
 
         {/*Buttons*/}
-        <Button 
-        label="Deposit/Withdraw"
-        style ={buttonStyle}
-        link="./bet_page.js" /*Deposit/Withdraw Page */
-        />  
+        <div className="left">
+          <Button 
+          label="Deposit/Withdraw"
+          className="Button"
+          link="/bet_page" /*Deposit/Withdraw Page */
+         />  
+        </div>
 
         <ul className="navbar-nav px-3">
           <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">

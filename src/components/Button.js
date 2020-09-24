@@ -10,11 +10,13 @@ class Button extends Component {
 
     render(){
         return(
-            <button
-                href={this.props.link}
+            <a 
+            href={this.props.link}
             >
-                {this.props.label}
-            </button>
+                <button>
+                    {this.props.label}
+                </button>
+            </a>
         )
     }
 }

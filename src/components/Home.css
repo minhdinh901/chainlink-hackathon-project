@@ -1,1 +1,51 @@
 /* Styles go here */
+
+header {
+    background-color:blue;
+    padding: 25px;
+    text-align: center;
+    font-size: 205px;
+    color: red;
+  }
+  
+section {
+    width: 85%;
+    height: 50%;
+    color: blue;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.column{
+    float: center;
+    width: 33.33%;
+    height: 65%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    border-style: solid;
+    border-color: red;
+    border-width: 20px;
+}
+
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/*Button Work*/
+ Button{
+    color: red;
+    background-color: white;
+    padding: 8px;
+    font: Arial; 
+    justify-content: center;
+    display: flex;
+}
+.left{
+    display:flex;
+    align-self: left;
+}
