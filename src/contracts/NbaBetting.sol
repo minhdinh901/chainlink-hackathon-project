@@ -77,9 +77,9 @@ contract NbaBetting is ChainlinkClient {
         makeApiCall(UINT_JOB, this.gamesToGet.selector, 
                     string(abi.encodePacked(
                     "https://www.balldontlie.io/api/v1/games?start_date=", 
-                    date)), "meta.total_count");
+                    date, "&end_date=", date)), "meta.total_count");
 
-        //Get game IDs for all upcoming games
+        //Get game IDs for all games on a given date
         for(uint8 i = 0; i < numGames; i++){
             //Convert i to a string to use in API call
             bytes memory _gameNum = new bytes(1);
@@ -89,13 +89,13 @@ contract NbaBetting is ChainlinkClient {
             makeApiCall(UINT_JOB, this.storeGameId.selector, 
                         string(abi.encodePacked(
                         "https://www.balldontlie.io/api/v1/games?start_date=", 
-                        date)), string(abi.encodePacked("data.", gameNum, 
-                        ".id")));
+                        date, "&end_date=", date)), string(abi.encodePacked(
+                        "data.", gameNum, ".id")));
             gameIds[i] = tempGameId;
         }
     }
 
-    /* For getGameIds() function only */
+    /* For getGameIds() and getFutureGamesData functions only */
     function processTimeData(bytes32 _requestId, bytes32 _datetime) public 
              recordChainlinkFulfillment(_requestId) {
         //Create arrays to parse date from _datetime
