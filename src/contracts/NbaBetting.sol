@@ -17,7 +17,8 @@ contract NbaBetting is ChainlinkClient {
 
     //Address of Kovan network oracle which contains Get > bytes32 job
     //Alpha Chain - Kovan oracle found on market.link
-    address private ORACLE_ADDRESS = 0xAA1DC356dc4B18f30C347798FD5379F3D77ABC5b;
+    address private ORACLE_ADDRESS = 
+        0xAA1DC356dc4B18f30C347798FD5379F3D77ABC5b;
     //Job ID of Get > bytes32 job
     //Found on market.link
     bytes32 constant private BYTES_JOB = "b7285d4859da4b289c7861db971baf0a";
@@ -209,24 +210,23 @@ contract NbaBetting is ChainlinkClient {
         tempGameTime = string(_tempGameTime);
     }
 
-    /* Allow users to deposit or withdraw NbaTokens */
-    function depositOrWithdraw(uint _amount) public {
-        require(_amount >= (uint(-1) * nbaTokenBalance[msg.sender]), 
-                "Cannot withdraw more than account balance");
+    /* Allow users to deposit NbaTokens */
+    function deposit(uint _amount) public {
         require(_amount <= MAX_DEPOSIT, "Cannot deposit more than 999999");
-        require(_amount != 0, "Cannot withdraw or deposit 0");
+        require(_amount > 0, "Cannot deposit 0");
 
-        //Deposit
-        if(_amount > 0){
-            nbaToken.transferFrom(msg.sender, address(this), _amount);
-        }
-
-        //Withdraw
-        if(_amount < 0){
-            nbaToken.transfer(msg.sender, _amount);
-        }
-
+        nbaToken.transferFrom(msg.sender, address(this), _amount);
         nbaTokenBalance[msg.sender] = nbaTokenBalance[msg.sender] + _amount;
+    }
+
+    /* Allow users to withdraw NbaTokens */ 
+    function withdraw(uint _amount) public {
+        require(_amount <= nbaTokenBalance[msg.sender], 
+                "Cannot withdraw more than account balance");
+        require(_amount > 0, "Cannot withdraw 0");
+
+        nbaToken.transfer(msg.sender, _amount);
+        nbaTokenBalance[msg.sender] = nbaTokenBalance[msg.sender] - _amount;
     }
 
     /* Allow users to place bets */
