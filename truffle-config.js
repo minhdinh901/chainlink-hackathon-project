@@ -12,9 +12,9 @@ module.exports = {
     live: {
       provider: () => {
         return new HDWalletProvider(
-          "", // Add your mnemonic 
-          "", // Add your infura URL
-      },
+          "", //Add wallet mnemonic here
+          "", //Add infura URL here
+        )},
       network_id: '*',
       // ~~Necessary due to https://github.com/trufflesuite/truffle/issues/1971~~
       // Necessary due to https://github.com/trufflesuite/truffle/issues/3008
