@@ -1,5 +1,6 @@
 require('babel-register');
 require('babel-polyfill');
+const HDWalletProvider = require('@truffle/hdwallet-provider')
 
 module.exports = {
   networks: {
@@ -7,6 +8,17 @@ module.exports = {
       host: "127.0.0.1",
       port: 7545,
       network_id: "*" // Match any network id
+    },
+    live: {
+      provider: () => {
+        return new HDWalletProvider(
+          "", //Add wallet mnemonic here
+          "", //Add infura URL here
+        )},
+      network_id: '*',
+      // ~~Necessary due to https://github.com/trufflesuite/truffle/issues/1971~~
+      // Necessary due to https://github.com/trufflesuite/truffle/issues/3008
+      skipDryRun: true,
     },
   },
   contracts_directory: './src/contracts/',

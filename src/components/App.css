@@ -1,1 +1,19 @@
 /* Styles go here */
+section {
+    width: 85%;
+    height: 50%;
+    color: blue;
+    background-color: green;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.column{
+    width: 33.33%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    border-style: solid;
+    border-width: 10px;
+}
