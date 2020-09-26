@@ -2,7 +2,7 @@
 
 This project is a simple and fun program that simulates betting on NBA games.
 
-To get started (using Ganache https://www.trufflesuite.com/ganache), clone this repository and run 
+To get started (using Ganache https://www.trufflesuite.com/ganache), clone this repository and run and go into the proper folder
   > npm install
 
   > truffle migrate --network development
