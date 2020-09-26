@@ -4,129 +4,27 @@ import Bet from "./Bet"
 
 class BetChanger extends Component {
     render(){
+        let rows = [];
+
+        for(var i = 0; i < this.props.numGames; i++){
+            rows.push(
+                <Route path={"/bet_" + i}>
+                    <Bet
+                        index={i}
+                        home={this.props.homeTeam[i]}
+                        visitor={this.props.visitorTeam[i]}
+                        date={this.props.gameDate[i]}
+                        time={this.props.gameTime[i]}
+                        placeBet={this.props.placeBet.bind(this)}
+                    />
+                </Route>
+            );
+        }
+
         return(
             <div>
                 <Switch>
-                    <Route path="/bet_1">
-                        <Bet 
-                            teams="Celtics vs Heat"
-                            datetime="9/23/2020 | 8:30 ET"
-                            teamA="celtics"
-                            teamB="heat"
-                        />
-                    </Route>
-                    <Route path="/bet_2">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_3">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_4">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_5">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_6">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_7">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_8">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_9">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_10">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_11">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_12">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_13">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_14">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
-                    <Route path="/bet_15">
-                        <Bet 
-                            teams="N/A"
-                            datetime="N/A"
-                            teamA="N/A"
-                            teamB="N/A"
-                        />
-                    </Route>
+                    {rows}
                     <Route path="/">
                         <h4>Choose a Game to Bet On</h4>
                     </Route>

@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 
 class WithdrawDeposit extends Component {
-  render(){
+    render(){
         return(
             <div>
                 <h4>Account Balance</h4>
-                <h5>{this.props.balance} NbaTokens</h5>
+                <h5>{this.props.balance} NBA Tokens</h5>
 
                 <h4><br/></h4>
 
-                <h4>Withdraw or Deposit</h4>
+                <h4>Deposit</h4>
                 <form
                     onSubmit={(event) => {
                         event.preventDefault();
@@ -33,6 +33,7 @@ class WithdrawDeposit extends Component {
 
                 <h6><br/></h6>
 
+                <h4>Withdraw</h4>
                 <form
                     onSubmit={(event) => {
                         event.preventDefault();

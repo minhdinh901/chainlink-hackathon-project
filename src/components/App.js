@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router } from "react-router-dom"
 import Web3 from "web3";
 import NbaToken from "../abis/NbaToken.json";
 import NbaBetting from "../abis/NbaBetting.json";
-import ERC20 from "../abis/ERC20.json";
-import "./App.css"
-import Navbar from './Navbar'
-import Games from "./Games"
-import WithdrawDeposit from './WithdrawDeposit'
-import BetChanger from './BetChanger'
+import "./App.css";
+import Navbar from "./Navbar";
+import Main from "./Main";
 
 class App extends Component {
     async componentWillMount() {
@@ -34,14 +30,8 @@ class App extends Component {
     
         const accounts = await web3.eth.getAccounts();
         this.setState({ account: accounts[0] });
-        this.setState({
-            tokenAddress: "0xa36085F69e2889c224210F603D836748e7dC0088" });
-        this.setState({ tokenName: "LINK" });
     
         const networkId = await web3.eth.net.getId();
-
-        const erc20 = new web3.eth.Contract(ERC20.abi, this.state.tokenAddress);
-        this.setState({ erc20 });
     
         //Load NbaToken
         const nbaTokenData = NbaToken.networks[networkId];
@@ -64,13 +54,16 @@ class App extends Component {
             const nbaBetting = new web3.eth.Contract(NbaBetting.abi,
                                nbaBettingData.address);
             this.setState({ nbaBetting });
+            this.updateScreen();
         } else {
             window.alert(
                 "NbaBetting contract not deployed to detected network.");
         }
+
+        this.setState({ loading: false });
     }
 
-    async updateNbaTokenBalance() {
+    async updateScreen() {
         const web3 = window.web3;
         const networkId = await web3.eth.net.getId();
         const nbaBettingData = NbaBetting.networks[networkId];
@@ -79,58 +72,85 @@ class App extends Component {
         let nbaTokenBalance = await nbaBetting.methods.nbaTokenBalance(
             this.state.account).call();
         this.setState({ nbaTokenBalance: nbaTokenBalance.toString() });
+        let numGames = await nbaBetting.methods.numGames().call();
+        this.setState({numGames: numGames});
     }
-
-    /*getGameIds
-
-    getFutureGamesData*/
     
     deposit = (amount) => {
-        this.state.erc20.methods.approve(this.state.nbaBetting._address, 
+        this.setState({loading: true});
+        this.state.nbaToken.methods.approve(this.state.nbaBetting._address, 
             amount).send({from: this.state.account}).on("transactionHash", 
             (hash) => {
                 this.state.nbaBetting.methods.deposit(amount).send({
-                from: this.state.account}).on("transactionHash", (hash) => {});
-            });
-        this.updateNbaTokenBalance();
+                from: this.state.account}).on("transactionHash", (hash) => {
+                    this.setState({loading: false});
+                }
+            );
+        });
     }
 
     withdraw = (amount) => {
+        this.setState({loading: true});
         this.state.nbaBetting.methods.withdraw(amount).send(
-            {from: this.state.account}).on("transactionHash", (hash) => {});
-        this.updateNbaTokenBalance();
+            {from: this.state.account}).on("transactionHash", (hash) => {
+                this.setState({loading: false});
+            }
+        );
     }
 
-    /*placeBet
-
-    rewardBets
-
-    getGameHome
-
-    getGameVisitor
-
-    getGameDate
-
-    getGameTime*/
+    placeBet = (game, team, amount) => {
+        this.setState({loading: true});
+        this.state.nbaBetting.methods.placeBet(game, team, amount)
+            .send({from: this.state.account}).on("transactionHash", (hash) => {
+                this.setState({loading: false});
+            });
+    }
     
     constructor(props) {
         super(props)
         this.state = {
-            account: "0x0",
-            erc20: {},
+            account: "",
+            numGames: 0,
+            homeTeam: ["Boston Celtics", "Los Angeles Lakers"],
+            visitorTeam: ["Miami Heat", "Denver Nuggets"],
+            gameDate: ["2020-09-25", "2020-09-26"],
+            gameTime: ["8:30 PM ET", "9:00 PM ET"],
             nbaToken: {},
             nbaTokenAddress: "",
             nbaBetting: {},
-            nbaTokenBalance: "0",
-            tokenName: "",
-            tokenAddress: "0x0"
+            nbaTokenBalance: "",
+            loading: true,
         }
     }
 
     render() {
+        let content;
+        if (this.state.loading) {
+            content = (<p id="loader" className="text-center">Loading...</p>);
+        } else {
+            content = (
+                <Main
+                    nbaTokenAddress={this.state.nbaTokenAddress}
+                    nbaTokenBalance={this.state.nbaTokenBalance}
+                    numGames={this.state.numGames}
+                    homeTeam={this.state.homeTeam}
+                    visitorTeam={this.state.visitorTeam}
+                    gameDate={this.state.gameDate}
+                    gameTime={this.state.gameTime}
+                    winningTeam={this.state.winningTeam}
+                    placeBet={this.placeBet.bind(this)}
+                    deposit={this.deposit.bind(this)}
+                    withdraw={this.withdraw.bind(this)}
+                />
+            );
+        }
+
         return (
             <div>
-                <Navbar account={this.state.account} />
+                <Navbar 
+                    account={this.state.account} 
+                    nbaTokenAddress={this.state.nbaTokenAddress}
+                />
                 <div className="container-fluid mt-5">
                     <div className="row">
                         <main 
@@ -143,30 +163,7 @@ class App extends Component {
                         </main>
                     </div>
                 </div>
-                <div style = {{display: 'flex'}}> 
-                    <Router>
-                        <div className="column">
-                            <div>
-                                <div>
-                                    <h4>Games Today</h4>
-                                </div>
-                                <nav>
-                                    <Games />
-                                </nav>
-                            </div>
-                        </div>
-                        <div className="column">
-                            <BetChanger />
-                        </div>
-                        <div className="column">
-                            <WithdrawDeposit 
-                                balance={this.state.nbaTokenBalance}
-                                withdraw={this.withdraw.bind(this)}
-                                deposit={this.deposit.bind(this)}
-                            />
-                        </div>
-                    </Router>
-                </div>
+                {content}
             </div>
         );
     }

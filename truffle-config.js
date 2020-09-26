@@ -1,8 +1,6 @@
 require('babel-register');
 require('babel-polyfill');
 const HDWalletProvider = require('@truffle/hdwallet-provider')
-const mnemonic = "blind treat radio layer milk obvious vocal amateur twist balance cousin rigid";
-const kovanUrl = "https://kovan.infura.io/v3/c9e496442d2e42ac9d8022e61de8414c";
 
 module.exports = {
   networks: {
@@ -11,9 +9,11 @@ module.exports = {
       port: 7545,
       network_id: "*" // Match any network id
     },
-    kovan: {
+    live: {
       provider: () => {
-        return new HDWalletProvider(mnemonic, kovanUrl)
+        return new HDWalletProvider(
+          "", // Add your mnemonic 
+          "", // Add your infura URL
       },
       network_id: '*',
       // ~~Necessary due to https://github.com/trufflesuite/truffle/issues/1971~~
