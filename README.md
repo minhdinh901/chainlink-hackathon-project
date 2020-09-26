@@ -3,6 +3,8 @@
 This project is a simple and fun program that simulates betting on NBA games
 
 To get started (using Ganache https://www.trufflesuite.com/ganache), clone this repository and run 
+  > npm install
+
   > truffle migrate --network development
   
 to deploy the contracts on a local Ganache blockchain. Before running the program, edit ./scripts/add-games.js using game IDs found on https://www.balldontlie.io/#get-all-games and edit the homeTeam[], visitorTeam[], gameDate[], and gameTime[] arrays in ./src/components/App.js to reflect the new game IDs. Then run 
